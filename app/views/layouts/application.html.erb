@@ -53,8 +53,22 @@
         </div>
       </nav>
     </header>
-    <main class="mb-auto">
-    <%= yield %>
+    <main>
+      <div class="container px-5 px-sm-0">
+        <% if user_signed_in? %>
+          <div class="search-form">
+            <%= form_with url: search_path, method: :get, local: true do |f| %>
+              <%= f.text_field :word %>
+              <%= f.select :range ,options_for_select([['User', '1'], ['Book', '2']]) %>
+              <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"], ["後方一致","backward_match"],  ["部分一致","partial_match"]]) %>
+              <%= f.submit "検索" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mb-auto">
+        <%= yield %>
+      </div>
     </main>
     <footer>
       <div class="container mt-5">
